@@ -7,7 +7,7 @@ use crate::Violation;
 use crate::checkers::ast::Checker;
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
 pub(crate) struct MissingDataSecurityMode;
 impl Violation for MissingDataSecurityMode {
     #[derive_message_formats]
@@ -17,7 +17,7 @@ impl Violation for MissingDataSecurityMode {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
 pub(crate) struct UnsupportedRuntime;
 impl Violation for UnsupportedRuntime {
     #[derive_message_formats]

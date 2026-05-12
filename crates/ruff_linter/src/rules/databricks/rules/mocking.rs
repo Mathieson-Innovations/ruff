@@ -7,9 +7,9 @@ use crate::Violation;
 use crate::checkers::ast::Checker;
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
-pub(crate) struct ExplicitDependencyRequired;
-impl Violation for ExplicitDependencyRequired {
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
+pub(crate) struct ImplicitMockDependency;
+impl Violation for ImplicitMockDependency {
     #[derive_message_formats]
     fn message(&self) -> String {
         "Obscure implicit test dependency with mock.patch. Rewrite to inject dependencies through constructor.".to_string()
@@ -17,9 +17,9 @@ impl Violation for ExplicitDependencyRequired {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
-pub(crate) struct ObscureMock;
-impl Violation for ObscureMock {
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
+pub(crate) struct MagicMockUsage;
+impl Violation for MagicMockUsage {
     #[derive_message_formats]
     fn message(&self) -> String {
         "Obscure implicit test dependency with MagicMock(). Rewrite with create_autospec(ConcreteType).".to_string()
@@ -27,9 +27,9 @@ impl Violation for ObscureMock {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
-pub(crate) struct MockNoAssign;
-impl Violation for MockNoAssign {
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
+pub(crate) struct UnassignedMock;
+impl Violation for UnassignedMock {
     #[derive_message_formats]
     fn message(&self) -> String {
         "Mock not assigned to a variable".to_string()
@@ -37,9 +37,9 @@ impl Violation for MockNoAssign {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
-pub(crate) struct MockNoUsage;
-impl Violation for MockNoUsage {
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
+pub(crate) struct UnusedMock;
+impl Violation for UnusedMock {
     #[derive_message_formats]
     fn message(&self) -> String {
         "Missing usage of mock".to_string()
@@ -58,16 +58,16 @@ pub(crate) fn mocking(checker: &Checker, call: &ast::ExprCall) {
         && call.arguments.args.is_empty()
         && call.arguments.keywords.is_empty()
     {
-        if checker.is_rule_enabled(crate::registry::Rule::ObscureMock) {
-            checker.report_diagnostic(ObscureMock, call.func.range());
+        if checker.is_rule_enabled(crate::registry::Rule::MagicMockUsage) {
+            checker.report_diagnostic(MagicMockUsage, call.func.range());
         }
     }
 
     if func_name == "patch" && !call.arguments.args.is_empty() {
         if let Expr::StringLiteral(ast::ExprStringLiteral { value, .. }) = &call.arguments.args[0] {
             if value.to_str().starts_with("databricks") {
-                if checker.is_rule_enabled(crate::registry::Rule::ExplicitDependencyRequired) {
-                    checker.report_diagnostic(ExplicitDependencyRequired, call.func.range());
+                if checker.is_rule_enabled(crate::registry::Rule::ImplicitMockDependency) {
+                    checker.report_diagnostic(ImplicitMockDependency, call.func.range());
                 }
             }
         }
@@ -76,8 +76,8 @@ pub(crate) fn mocking(checker: &Checker, call: &ast::ExprCall) {
     if matches!(func_name, "MagicMock" | "create_autospec" | "patch") {
         let parent = checker.semantic().current_statement();
         if !matches!(parent, ast::Stmt::Assign(_) | ast::Stmt::AnnAssign(_)) {
-            if checker.is_rule_enabled(crate::registry::Rule::MockNoAssign) {
-                checker.report_diagnostic(MockNoAssign, call.range());
+            if checker.is_rule_enabled(crate::registry::Rule::UnassignedMock) {
+                checker.report_diagnostic(UnassignedMock, call.range());
             }
         }
     }

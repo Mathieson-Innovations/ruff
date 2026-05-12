@@ -7,7 +7,7 @@ use crate::Violation;
 use crate::checkers::ast::Checker;
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
 pub(crate) struct DbutilsFsCp;
 impl Violation for DbutilsFsCp {
     #[derive_message_formats]
@@ -17,7 +17,7 @@ impl Violation for DbutilsFsCp {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
 pub(crate) struct DbutilsFsHead;
 impl Violation for DbutilsFsHead {
     #[derive_message_formats]
@@ -27,7 +27,7 @@ impl Violation for DbutilsFsHead {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
 pub(crate) struct DbutilsFsLs;
 impl Violation for DbutilsFsLs {
     #[derive_message_formats]
@@ -37,7 +37,7 @@ impl Violation for DbutilsFsLs {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
 pub(crate) struct DbutilsFsMount;
 impl Violation for DbutilsFsMount {
     #[derive_message_formats]
@@ -48,7 +48,7 @@ impl Violation for DbutilsFsMount {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
 pub(crate) struct DbutilsCredentials;
 impl Violation for DbutilsCredentials {
     #[derive_message_formats]
@@ -58,7 +58,7 @@ impl Violation for DbutilsCredentials {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
 pub(crate) struct DbutilsNotebookRun;
 impl Violation for DbutilsNotebookRun {
     #[derive_message_formats]

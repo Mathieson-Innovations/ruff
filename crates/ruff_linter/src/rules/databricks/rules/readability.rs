@@ -6,9 +6,9 @@ use crate::Violation;
 use crate::checkers::ast::Checker;
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
-pub(crate) struct RewriteAsForLoop;
-impl Violation for RewriteAsForLoop {
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
+pub(crate) struct MultilineListComprehension;
+impl Violation for MultilineListComprehension {
     #[derive_message_formats]
     fn message(&self) -> String {
         "List comprehension spans multiple lines, rewrite as for loop".to_string()
@@ -21,8 +21,8 @@ pub(crate) fn rewrite_as_for_loop(checker: &Checker, list_comp: &ast::ExprListCo
     let range = list_comp.range();
     let contents = locator.slice(range);
     if contents.contains('\n') || contents.contains('\r') {
-        if checker.is_rule_enabled(crate::registry::Rule::RewriteAsForLoop) {
-            checker.report_diagnostic(RewriteAsForLoop, range);
+        if checker.is_rule_enabled(crate::registry::Rule::MultilineListComprehension) {
+            checker.report_diagnostic(MultilineListComprehension, range);
         }
     }
 }

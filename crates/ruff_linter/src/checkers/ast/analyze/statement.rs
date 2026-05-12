@@ -539,7 +539,9 @@ pub(crate) fn statement(stmt: &Stmt, checker: &mut Checker) {
             range: _,
             node_index: _,
         }) => {
-            if checker.any_rule_enabled(&[Rule::LegacyCli, Rule::IncompatibleWithUc]) {
+            if checker
+                .any_rule_enabled(&[Rule::DatabricksLegacyCli, Rule::UnityCatalogIncompatible])
+            {
                 crate::rules::databricks::rules::legacy::import(checker, stmt);
             }
             if checker.is_rule_enabled(Rule::MultipleImportsOnOneLine) {
@@ -705,7 +707,9 @@ pub(crate) fn statement(stmt: &Stmt, checker: &mut Checker) {
                 node_index: _,
             },
         ) => {
-            if checker.any_rule_enabled(&[Rule::LegacyCli, Rule::IncompatibleWithUc]) {
+            if checker
+                .any_rule_enabled(&[Rule::DatabricksLegacyCli, Rule::UnityCatalogIncompatible])
+            {
                 crate::rules::databricks::rules::legacy::import(checker, stmt);
             }
             let level = *level;

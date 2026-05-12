@@ -6,7 +6,7 @@ use crate::Violation;
 use crate::checkers::ast::Checker;
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
 pub(crate) struct SparkOutsideFunction;
 impl Violation for SparkOutsideFunction {
     #[derive_message_formats]
@@ -16,9 +16,9 @@ impl Violation for SparkOutsideFunction {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
-pub(crate) struct NoSparkArgumentInFunction;
-impl Violation for NoSparkArgumentInFunction {
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
+pub(crate) struct UnpassedSparkReference;
+impl Violation for UnpassedSparkReference {
     #[derive_message_formats]
     fn message(&self) -> String {
         "Function refers to a global spark variable, which may not always be available".to_string()
@@ -26,9 +26,9 @@ impl Violation for NoSparkArgumentInFunction {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
-pub(crate) struct UseDisplayInsteadOfShow;
-impl Violation for UseDisplayInsteadOfShow {
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
+pub(crate) struct SparkDataFrameShow;
+impl Violation for SparkDataFrameShow {
     #[derive_message_formats]
     fn message(&self) -> String {
         "Rewrite to display in a notebook: display(...)".to_string()
@@ -54,8 +54,8 @@ pub(crate) fn spark_name(checker: &Checker, name: &ast::ExprName) {
             .get("spark")
             .is_some_and(|id| checker.semantic().binding(id).kind.is_argument());
         if !has_spark_arg {
-            if checker.is_rule_enabled(crate::registry::Rule::NoSparkArgumentInFunction) {
-                checker.report_diagnostic(NoSparkArgumentInFunction, name.range());
+            if checker.is_rule_enabled(crate::registry::Rule::UnpassedSparkReference) {
+                checker.report_diagnostic(UnpassedSparkReference, name.range());
             }
         }
     }
@@ -64,8 +64,8 @@ pub(crate) fn spark_name(checker: &Checker, name: &ast::ExprName) {
 /// DBX017
 pub(crate) fn spark_show(checker: &Checker, attribute: &ast::ExprAttribute) {
     if attribute.attr.as_str() == "show" {
-        if checker.is_rule_enabled(crate::registry::Rule::UseDisplayInsteadOfShow) {
-            checker.report_diagnostic(UseDisplayInsteadOfShow, attribute.range());
+        if checker.is_rule_enabled(crate::registry::Rule::SparkDataFrameShow) {
+            checker.report_diagnostic(SparkDataFrameShow, attribute.range());
         }
     }
 }

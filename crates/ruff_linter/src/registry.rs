@@ -262,9 +262,9 @@ impl Rule {
             | Rule::MissingCopyrightNotice
             | Rule::MissingNewlineAtEndOfFile
             | Rule::MixedSpacesAndTabs
-            | Rule::NotebooksTooManyCells
-            | Rule::NotebooksPercentRun
-            | Rule::NotebooksPercentPip
+            | Rule::TooManyNotebookCells
+            | Rule::NotebookPercentRun
+            | Rule::NotebookPercentPip
             | Rule::TrailingWhitespace => LintSource::PhysicalLines,
             Rule::AmbiguousUnicodeCharacterComment
             | Rule::BlanketTypeIgnore

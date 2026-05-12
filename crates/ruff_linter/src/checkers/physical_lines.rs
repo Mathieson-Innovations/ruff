@@ -37,9 +37,9 @@ pub(crate) fn check_physical_lines(
         context.is_rule_enabled(Rule::BlankLineWithWhitespace);
     let enforce_copyright_notice = context.is_rule_enabled(Rule::MissingCopyrightNotice);
     let enforce_databricks_notebooks = context.any_rule_enabled(&[
-        Rule::NotebooksTooManyCells,
-        Rule::NotebooksPercentRun,
-        Rule::NotebooksPercentPip,
+        Rule::TooManyNotebookCells,
+        Rule::NotebookPercentRun,
+        Rule::NotebookPercentPip,
     ]);
 
     let mut doc_lines_iter = doc_lines.iter().peekable();

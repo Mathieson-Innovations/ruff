@@ -7,9 +7,9 @@ use crate::Violation;
 use crate::checkers::ast::Checker;
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
-pub(crate) struct InternalApi;
-impl Violation for InternalApi {
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
+pub(crate) struct DatabricksInternalApi;
+impl Violation for DatabricksInternalApi {
     #[derive_message_formats]
     fn message(&self) -> String {
         "Do not use internal APIs, rewrite using Databricks SDK".to_string()
@@ -17,9 +17,9 @@ impl Violation for InternalApi {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
-pub(crate) struct LegacyCli;
-impl Violation for LegacyCli {
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
+pub(crate) struct DatabricksLegacyCli;
+impl Violation for DatabricksLegacyCli {
     #[derive_message_formats]
     fn message(&self) -> String {
         "Don't use databricks_cli, use databricks.sdk instead".to_string()
@@ -27,9 +27,9 @@ impl Violation for LegacyCli {
 }
 
 #[derive(ViolationMetadata)]
-#[violation_metadata(stable_since = "0.1.0")]
-pub(crate) struct IncompatibleWithUc;
-impl Violation for IncompatibleWithUc {
+#[violation_metadata(preview_since = "NEXT_RUFF_VERSION")]
+pub(crate) struct UnityCatalogIncompatible;
+impl Violation for UnityCatalogIncompatible {
     #[derive_message_formats]
     fn message(&self) -> String {
         "Incompatible with Unity Catalog".to_string()
@@ -84,19 +84,20 @@ pub(crate) fn import(checker: &Checker, stmt: &Stmt) {
             if let Some(module) = module {
                 let module_str = module.as_str();
                 if module_str.starts_with("databricks_cli") {
-                    if checker.is_rule_enabled(crate::registry::Rule::LegacyCli) {
-                        checker.report_diagnostic(LegacyCli, stmt.range());
+                    if checker.is_rule_enabled(crate::registry::Rule::DatabricksLegacyCli) {
+                        checker.report_diagnostic(DatabricksLegacyCli, stmt.range());
                     }
                 }
                 if module_str.starts_with("dbruntime") {
-                    if checker.is_rule_enabled(crate::registry::Rule::InternalApi) {
-                        checker.report_diagnostic(InternalApi, stmt.range());
+                    if checker.is_rule_enabled(crate::registry::Rule::DatabricksInternalApi) {
+                        checker.report_diagnostic(DatabricksInternalApi, stmt.range());
                     }
                 }
                 for needle in UC_INCOMPATIBLE_BRUTE_FORCE {
                     if module_str.contains(needle) {
-                        if checker.is_rule_enabled(crate::registry::Rule::IncompatibleWithUc) {
-                            checker.report_diagnostic(IncompatibleWithUc, stmt.range());
+                        if checker.is_rule_enabled(crate::registry::Rule::UnityCatalogIncompatible)
+                        {
+                            checker.report_diagnostic(UnityCatalogIncompatible, stmt.range());
                         }
                     }
                 }
@@ -109,19 +110,19 @@ pub(crate) fn import(checker: &Checker, stmt: &Stmt) {
     for alias in names {
         let name_str = alias.name.as_str();
         if name_str.starts_with("databricks_cli") {
-            if checker.is_rule_enabled(crate::registry::Rule::LegacyCli) {
-                checker.report_diagnostic(LegacyCli, alias.range());
+            if checker.is_rule_enabled(crate::registry::Rule::DatabricksLegacyCli) {
+                checker.report_diagnostic(DatabricksLegacyCli, alias.range());
             }
         }
         if name_str.starts_with("dbruntime") {
-            if checker.is_rule_enabled(crate::registry::Rule::InternalApi) {
-                checker.report_diagnostic(InternalApi, alias.range());
+            if checker.is_rule_enabled(crate::registry::Rule::DatabricksInternalApi) {
+                checker.report_diagnostic(DatabricksInternalApi, alias.range());
             }
         }
         for needle in UC_INCOMPATIBLE_BRUTE_FORCE {
             if name_str.contains(needle) {
-                if checker.is_rule_enabled(crate::registry::Rule::IncompatibleWithUc) {
-                    checker.report_diagnostic(IncompatibleWithUc, alias.range());
+                if checker.is_rule_enabled(crate::registry::Rule::UnityCatalogIncompatible) {
+                    checker.report_diagnostic(UnityCatalogIncompatible, alias.range());
                 }
             }
         }
@@ -137,8 +138,8 @@ pub(crate) fn expr(checker: &Checker, expr: &Expr) {
                 || attr_name.contains(".notebook().getContext()")
                 || attr_name.contains(".notebook.entry_point")
             {
-                if checker.is_rule_enabled(crate::registry::Rule::InternalApi) {
-                    checker.report_diagnostic(InternalApi, expr.range());
+                if checker.is_rule_enabled(crate::registry::Rule::DatabricksInternalApi) {
+                    checker.report_diagnostic(DatabricksInternalApi, expr.range());
                 }
             }
         }
@@ -146,8 +147,8 @@ pub(crate) fn expr(checker: &Checker, expr: &Expr) {
             let val = value.to_str();
             for needle in UC_INCOMPATIBLE_BRUTE_FORCE {
                 if val.contains(needle) {
-                    if checker.is_rule_enabled(crate::registry::Rule::IncompatibleWithUc) {
-                        checker.report_diagnostic(IncompatibleWithUc, expr.range());
+                    if checker.is_rule_enabled(crate::registry::Rule::UnityCatalogIncompatible) {
+                        checker.report_diagnostic(UnityCatalogIncompatible, expr.range());
                     }
                 }
             }

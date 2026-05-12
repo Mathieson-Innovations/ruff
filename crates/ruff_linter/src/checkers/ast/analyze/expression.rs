@@ -236,8 +236,7 @@ pub(crate) fn expression(expr: &Expr, checker: &Checker) {
                 node_index: _,
             },
         ) => {
-            if checker
-                .any_rule_enabled(&[Rule::SparkOutsideFunction, Rule::NoSparkArgumentInFunction])
+            if checker.any_rule_enabled(&[Rule::SparkOutsideFunction, Rule::UnpassedSparkReference])
             {
                 crate::rules::databricks::rules::spark::spark_name(checker, expr_name);
             }
@@ -403,10 +402,12 @@ pub(crate) fn expression(expr: &Expr, checker: &Checker) {
             }
         }
         Expr::Attribute(attribute) => {
-            if checker.any_rule_enabled(&[Rule::InternalApi, Rule::IncompatibleWithUc]) {
+            if checker
+                .any_rule_enabled(&[Rule::DatabricksInternalApi, Rule::UnityCatalogIncompatible])
+            {
                 crate::rules::databricks::rules::legacy::expr(checker, expr);
             }
-            if checker.is_rule_enabled(Rule::UseDisplayInsteadOfShow) {
+            if checker.is_rule_enabled(Rule::SparkDataFrameShow) {
                 crate::rules::databricks::rules::spark::spark_show(checker, attribute);
             }
             if attribute.ctx == ExprContext::Load {
@@ -566,10 +567,10 @@ pub(crate) fn expression(expr: &Expr, checker: &Checker) {
                 crate::rules::databricks::rules::dbutils::dbutils_call(checker, call);
             }
             if checker.any_rule_enabled(&[
-                Rule::ExplicitDependencyRequired,
-                Rule::ObscureMock,
-                Rule::MockNoAssign,
-                Rule::MockNoUsage,
+                Rule::ImplicitMockDependency,
+                Rule::MagicMockUsage,
+                Rule::UnassignedMock,
+                Rule::UnusedMock,
             ]) {
                 crate::rules::databricks::rules::mocking::mocking(checker, call);
             }
@@ -1768,10 +1769,10 @@ pub(crate) fn expression(expr: &Expr, checker: &Checker) {
                 node_index: _,
             },
         ) => {
-            if checker.is_rule_enabled(Rule::PatTokenLeaked) {
+            if checker.is_rule_enabled(Rule::HardcodedDatabricksToken) {
                 crate::rules::databricks::rules::security::pat_token_leaked(checker, string_like);
             }
-            if checker.is_rule_enabled(Rule::IncompatibleWithUc) {
+            if checker.is_rule_enabled(Rule::UnityCatalogIncompatible) {
                 crate::rules::databricks::rules::legacy::expr(checker, expr);
             }
             if checker.is_rule_enabled(Rule::UnicodeKindPrefix) {
@@ -1832,7 +1833,7 @@ pub(crate) fn expression(expr: &Expr, checker: &Checker) {
                 node_index: _,
             },
         ) => {
-            if checker.is_rule_enabled(Rule::RewriteAsForLoop) {
+            if checker.is_rule_enabled(Rule::MultilineListComprehension) {
                 crate::rules::databricks::rules::readability::rewrite_as_for_loop(checker, comp);
             }
             if checker.is_rule_enabled(Rule::UnnecessaryListIndexLookup) {
