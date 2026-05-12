@@ -1,0 +1,15 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX023 List comprehension spans multiple lines, rewrite as for loop
+ --> DBX_readability.py:2:1
+  |
+1 |   # DBX023
+2 | / [
+3 | |     x
+4 | |     for x in range(10)
+5 | | ]
+  | |_^
+6 |
+7 |   # OK
+  |

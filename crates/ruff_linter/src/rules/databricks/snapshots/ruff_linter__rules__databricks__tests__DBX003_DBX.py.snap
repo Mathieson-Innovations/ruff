@@ -1,0 +1,12 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX003 Use Databricks SDK instead: w.dbfs.copy(...)
+ --> DBX.py:2:1
+  |
+1 | # DBX003
+2 | dbutils.fs.cp("a", "b")
+  | ^^^^^^^^^^^^^
+3 |
+4 | # DBX004
+  |

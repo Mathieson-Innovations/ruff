@@ -1,0 +1,22 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX010 Do not use internal APIs, rewrite using Databricks SDK
+  --> DBX.py:24:1
+   |
+23 | # DBX010
+24 | dbutils.getDbutils()
+   | ^^^^^^^^^^^^^^^^^^
+25 | spark.notebook().getContext().apiToken()
+   |
+
+DBX010 Do not use internal APIs, rewrite using Databricks SDK
+  --> DBX.py:25:1
+   |
+23 | # DBX010
+24 | dbutils.getDbutils()
+25 | spark.notebook().getContext().apiToken()
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+26 |
+27 | # DBX011
+   |

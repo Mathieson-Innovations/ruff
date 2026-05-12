@@ -37,6 +37,9 @@ pub enum Linter {
     /// [Airflow](https://pypi.org/project/apache-airflow/)
     #[prefix = "AIR"]
     Airflow,
+    /// [Databricks](https://www.databricks.com/)
+    #[prefix = "DBX"]
+    Databricks,
     /// [eradicate](https://pypi.org/project/eradicate/)
     #[prefix = "ERA"]
     Eradicate,
@@ -259,6 +262,9 @@ impl Rule {
             | Rule::MissingCopyrightNotice
             | Rule::MissingNewlineAtEndOfFile
             | Rule::MixedSpacesAndTabs
+            | Rule::NotebooksTooManyCells
+            | Rule::NotebooksPercentRun
+            | Rule::NotebooksPercentPip
             | Rule::TrailingWhitespace => LintSource::PhysicalLines,
             Rule::AmbiguousUnicodeCharacterComment
             | Rule::BlanketTypeIgnore

@@ -36,11 +36,24 @@ pub(crate) fn check_physical_lines(
     let enforce_blank_line_contains_whitespace =
         context.is_rule_enabled(Rule::BlankLineWithWhitespace);
     let enforce_copyright_notice = context.is_rule_enabled(Rule::MissingCopyrightNotice);
+    let enforce_databricks_notebooks = context.any_rule_enabled(&[
+        Rule::NotebooksTooManyCells,
+        Rule::NotebooksPercentRun,
+        Rule::NotebooksPercentPip,
+    ]);
 
     let mut doc_lines_iter = doc_lines.iter().peekable();
     let comment_ranges = indexer.comment_ranges();
+    let mut databricks_cell_count = 1;
 
     for line in locator.contents().universal_newlines() {
+        if enforce_databricks_notebooks {
+            crate::rules::databricks::rules::notebooks::notebooks(
+                &line,
+                context,
+                &mut databricks_cell_count,
+            );
+        }
         while doc_lines_iter
             .next_if(|doc_line_start| line.range().contains_inclusive(**doc_line_start))
             .is_some()

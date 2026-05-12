@@ -1,0 +1,13 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX002 Cluster has unsupported runtime
+ --> DBX_airflow.py:5:26
+  |
+3 |     task_id="job",
+4 |     new_cluster={
+5 |         "spark_version": "10.4.x-scala2.12",
+  |                          ^^^^^^^^^^^^^^^^^^
+6 |         "node_type_id": "i3.xlarge",
+7 |     }
+  |

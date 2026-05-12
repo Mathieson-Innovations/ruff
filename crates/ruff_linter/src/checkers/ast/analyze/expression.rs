@@ -236,6 +236,11 @@ pub(crate) fn expression(expr: &Expr, checker: &Checker) {
                 node_index: _,
             },
         ) => {
+            if checker
+                .any_rule_enabled(&[Rule::SparkOutsideFunction, Rule::NoSparkArgumentInFunction])
+            {
+                crate::rules::databricks::rules::spark::spark_name(checker, expr_name);
+            }
             match ctx {
                 ExprContext::Load => {
                     if checker.is_rule_enabled(Rule::TypingTextStrAlias) {
@@ -398,6 +403,12 @@ pub(crate) fn expression(expr: &Expr, checker: &Checker) {
             }
         }
         Expr::Attribute(attribute) => {
+            if checker.any_rule_enabled(&[Rule::InternalApi, Rule::IncompatibleWithUc]) {
+                crate::rules::databricks::rules::legacy::expr(checker, expr);
+            }
+            if checker.is_rule_enabled(Rule::UseDisplayInsteadOfShow) {
+                crate::rules::databricks::rules::spark::spark_show(checker, attribute);
+            }
             if attribute.ctx == ExprContext::Load {
                 if checker.any_rule_enabled(&[
                     Rule::SuspiciousPickleUsage,
@@ -540,6 +551,28 @@ pub(crate) fn expression(expr: &Expr, checker: &Checker) {
                 node_index: _,
             },
         ) => {
+            if checker.any_rule_enabled(&[Rule::MissingDataSecurityMode, Rule::UnsupportedRuntime])
+            {
+                crate::rules::databricks::rules::airflow::airflow_call(checker, call);
+            }
+            if checker.any_rule_enabled(&[
+                Rule::DbutilsFsCp,
+                Rule::DbutilsFsHead,
+                Rule::DbutilsFsLs,
+                Rule::DbutilsFsMount,
+                Rule::DbutilsCredentials,
+                Rule::DbutilsNotebookRun,
+            ]) {
+                crate::rules::databricks::rules::dbutils::dbutils_call(checker, call);
+            }
+            if checker.any_rule_enabled(&[
+                Rule::ExplicitDependencyRequired,
+                Rule::ObscureMock,
+                Rule::MockNoAssign,
+                Rule::MockNoUsage,
+            ]) {
+                crate::rules::databricks::rules::mocking::mocking(checker, call);
+            }
             if checker.any_rule_enabled(&[
                 // pylint
                 Rule::BadStringFormatCharacter,
@@ -1735,6 +1768,12 @@ pub(crate) fn expression(expr: &Expr, checker: &Checker) {
                 node_index: _,
             },
         ) => {
+            if checker.is_rule_enabled(Rule::PatTokenLeaked) {
+                crate::rules::databricks::rules::security::pat_token_leaked(checker, string_like);
+            }
+            if checker.is_rule_enabled(Rule::IncompatibleWithUc) {
+                crate::rules::databricks::rules::legacy::expr(checker, expr);
+            }
             if checker.is_rule_enabled(Rule::UnicodeKindPrefix) {
                 for string_part in value {
                     pyupgrade::rules::unicode_kind_prefix(checker, string_part);
@@ -1793,6 +1832,9 @@ pub(crate) fn expression(expr: &Expr, checker: &Checker) {
                 node_index: _,
             },
         ) => {
+            if checker.is_rule_enabled(Rule::RewriteAsForLoop) {
+                crate::rules::databricks::rules::readability::rewrite_as_for_loop(checker, comp);
+            }
             if checker.is_rule_enabled(Rule::UnnecessaryListIndexLookup) {
                 pylint::rules::unnecessary_list_index_lookup_comprehension(checker, expr);
             }

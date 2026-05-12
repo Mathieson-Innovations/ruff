@@ -1,0 +1,12 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX015 Using spark outside the function is leading to untestable code
+ --> DBX_spark.py:2:1
+  |
+1 | # DBX015
+2 | spark = "something"
+  | ^^^^^
+3 |
+4 | def f():
+  |
