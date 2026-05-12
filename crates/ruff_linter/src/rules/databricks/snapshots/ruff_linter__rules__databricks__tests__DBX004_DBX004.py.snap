@@ -1,0 +1,9 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX004 Use Databricks SDK instead: with w.dbfs.download(...) as f: f.read()
+ --> DBX004.py:1:1
+  |
+1 | dbutils.fs.head("a")
+  | ^^^^^^^^^^^^^^^
+  |

@@ -1,0 +1,10 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX019 Obscure implicit test dependency with MagicMock(). Rewrite with create_autospec(ConcreteType).
+ --> DBX019.py:2:8
+  |
+1 | from unittest.mock import MagicMock
+2 | mock = MagicMock()
+  |        ^^^^^^^^^
+  |

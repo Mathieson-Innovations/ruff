@@ -1,0 +1,21 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX013 Notebooks should not have more than 75 cells
+  --> DBX013.py:76:1
+   |
+74 | # COMMAND ----------
+75 | # COMMAND ----------
+76 | # COMMAND ----------
+   | ^^^^^^^^^^^^^^^^^^^^
+77 | # COMMAND ----------
+   |
+
+DBX013 Notebooks should not have more than 75 cells
+  --> DBX013.py:77:1
+   |
+75 | # COMMAND ----------
+76 | # COMMAND ----------
+77 | # COMMAND ----------
+   | ^^^^^^^^^^^^^^^^^^^^
+   |

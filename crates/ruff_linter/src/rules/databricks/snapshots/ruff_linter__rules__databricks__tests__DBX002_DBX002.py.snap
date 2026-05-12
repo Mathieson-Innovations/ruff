@@ -1,0 +1,13 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX002 Cluster has unsupported runtime
+ --> DBX002.py:4:26
+  |
+2 |     task_id="job",
+3 |     new_cluster={
+4 |         "spark_version": "10.4.x-scala2.12",
+  |                          ^^^^^^^^^^^^^^^^^^
+5 |         "data_security_mode": "SINGLE_USER",
+6 |     }
+  |

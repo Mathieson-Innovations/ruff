@@ -1,0 +1,9 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX005 Use Databricks SDK instead: w.dbfs.list(...)
+ --> DBX005.py:1:1
+  |
+1 | dbutils.fs.ls("a")
+  | ^^^^^^^^^^^^^
+  |

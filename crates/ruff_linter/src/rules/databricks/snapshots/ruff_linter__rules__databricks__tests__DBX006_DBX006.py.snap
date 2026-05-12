@@ -1,0 +1,18 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX006 Mounts are not supported with Unity Catalog, switch to using Unity Catalog Volumes instead
+ --> DBX006.py:1:1
+  |
+1 | dbutils.fs.mount("s3a://bucket", "/mnt/bucket")
+  | ^^^^^^^^^^^^^^^^
+2 | dbutils.fs.unmount("/mnt/bucket")
+  |
+
+DBX006 Mounts are not supported with Unity Catalog, switch to using Unity Catalog Volumes instead
+ --> DBX006.py:2:1
+  |
+1 | dbutils.fs.mount("s3a://bucket", "/mnt/bucket")
+2 | dbutils.fs.unmount("/mnt/bucket")
+  | ^^^^^^^^^^^^^^^^^^
+  |

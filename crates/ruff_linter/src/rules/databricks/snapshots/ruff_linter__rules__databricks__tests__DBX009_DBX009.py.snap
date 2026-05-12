@@ -1,0 +1,9 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX009 Do not hardcode secrets in code, use Databricks SDK instead
+ --> DBX009.py:1:9
+  |
+1 | token = "dapi1234567890abcdef1234567890abcdef"
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |

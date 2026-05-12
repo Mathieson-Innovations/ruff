@@ -1,0 +1,9 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX007 Credentials utility is not supported with Unity Catalog
+ --> DBX007.py:1:1
+  |
+1 | dbutils.credentials.getSecret("scope", "key")
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |

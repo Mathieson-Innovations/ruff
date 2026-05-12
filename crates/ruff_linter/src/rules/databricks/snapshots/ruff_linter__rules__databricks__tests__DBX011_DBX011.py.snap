@@ -1,0 +1,9 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX011 Don't use databricks_cli, use databricks.sdk instead
+ --> DBX011.py:1:8
+  |
+1 | import databricks_cli
+  |        ^^^^^^^^^^^^^^
+  |

@@ -146,10 +146,11 @@ pub(crate) fn expr(checker: &Checker, expr: &Expr) {
         Expr::StringLiteral(ast::ExprStringLiteral { value, .. }) => {
             let val = value.to_str();
             for needle in UC_INCOMPATIBLE_BRUTE_FORCE {
-                if val.contains(needle) {
+                if val == *needle || val.starts_with(needle) {
                     if checker.is_rule_enabled(crate::registry::Rule::UnityCatalogIncompatible) {
                         checker.report_diagnostic(UnityCatalogIncompatible, expr.range());
                     }
+                    break;
                 }
             }
         }

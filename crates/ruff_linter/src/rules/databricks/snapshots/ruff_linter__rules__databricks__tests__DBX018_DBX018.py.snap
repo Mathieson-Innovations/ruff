@@ -1,0 +1,10 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX018 Obscure implicit test dependency with mock.patch. Rewrite to inject dependencies through constructor.
+ --> DBX018.py:2:1
+  |
+1 | from unittest.mock import patch
+2 | patch("databricks.sdk.WorkspaceClient")
+  | ^^^^^
+  |

@@ -45,6 +45,7 @@ pub(crate) fn check_physical_lines(
     let mut doc_lines_iter = doc_lines.iter().peekable();
     let comment_ranges = indexer.comment_ranges();
     let mut databricks_cell_count = 1;
+    let mut is_databricks_notebook = false;
 
     for line in locator.contents().universal_newlines() {
         if enforce_databricks_notebooks {
@@ -52,6 +53,7 @@ pub(crate) fn check_physical_lines(
                 &line,
                 context,
                 &mut databricks_cell_count,
+                &mut is_databricks_notebook,
             );
         }
         while doc_lines_iter

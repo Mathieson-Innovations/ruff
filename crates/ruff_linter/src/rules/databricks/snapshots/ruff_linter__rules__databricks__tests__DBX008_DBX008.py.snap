@@ -1,0 +1,9 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX008 Use Databricks SDK instead: w.jobs.submit(...)
+ --> DBX008.py:1:1
+  |
+1 | dbutils.notebook.run("notebook", 60)
+  | ^^^^^^^^^^^^^^^^^^^^
+  |

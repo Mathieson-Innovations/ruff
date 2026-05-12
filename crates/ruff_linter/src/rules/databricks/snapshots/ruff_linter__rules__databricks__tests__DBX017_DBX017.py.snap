@@ -1,0 +1,12 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX017 [*] Rewrite to display in a notebook: display(...)
+ --> DBX017.py:1:1
+  |
+1 | df.show()
+  | ^^^^^^^
+  |
+help: Replace with `display(...)`
+  - df.show()
+1 + display(df)

@@ -1,0 +1,10 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX014 Using %run is not allowed
+ --> DBX014.py:2:1
+  |
+1 | # Databricks notebook source
+2 | # MAGIC %run ./other
+  | ^^^^^^^^^^^^^^^^^^^^
+  |

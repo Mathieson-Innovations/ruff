@@ -1,0 +1,16 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX024 [*] Use `%uv pip` instead of `%pip` for faster dependency installation on Databricks
+ --> DBX024.py:2:1
+  |
+1 | # Databricks notebook source
+2 | # MAGIC %pip install foo
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+3 | # MAGIC %uv pip install foo
+  |
+help: Replace with `%uv pip`
+1 | # Databricks notebook source
+  - # MAGIC %pip install foo
+2 | # MAGIC %uv pip install foo
+3 + # MAGIC %uv pip install foo

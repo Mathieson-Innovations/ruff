@@ -1,0 +1,16 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX001 Cluster missing `data_security_mode` required for Unity Catalog compatibility
+ --> DBX001.py:3:17
+  |
+1 |   DatabricksCreateJobsOperator(
+2 |       task_id="job",
+3 |       new_cluster={
+  |  _________________^
+4 | |         "spark_version": "13.3.x-scala2.12",
+5 | |         "node_type_id": "i3.xlarge",
+6 | |     }
+  | |_____^
+7 |   )
+  |

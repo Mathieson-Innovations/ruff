@@ -1,0 +1,31 @@
+---
+source: crates/ruff_linter/src/rules/databricks/mod.rs
+---
+DBX021 Mock not assigned to a variable
+ --> DBX021.py:2:1
+  |
+1 | from unittest.mock import MagicMock, create_autospec, patch
+2 | MagicMock()
+  | ^^^^^^^^^^^
+3 | create_autospec(dict)
+4 | patch("os.path.join")
+  |
+
+DBX021 Mock not assigned to a variable
+ --> DBX021.py:3:1
+  |
+1 | from unittest.mock import MagicMock, create_autospec, patch
+2 | MagicMock()
+3 | create_autospec(dict)
+  | ^^^^^^^^^^^^^^^^^^^^^
+4 | patch("os.path.join")
+  |
+
+DBX021 Mock not assigned to a variable
+ --> DBX021.py:4:1
+  |
+2 | MagicMock()
+3 | create_autospec(dict)
+4 | patch("os.path.join")
+  | ^^^^^^^^^^^^^^^^^^^^^
+  |
